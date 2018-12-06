@@ -14,7 +14,7 @@ def post_list(request):
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
-        posts = paginator.page(1)
+        posts = paginator.page(3)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     context={
