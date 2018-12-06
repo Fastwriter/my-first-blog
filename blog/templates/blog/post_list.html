@@ -25,14 +25,26 @@
                             <p>{{ post.text|linebreaksbr }}</p>
                         </div>
                     {% endfor %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if posts.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ posts.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                             </span>
+
+                            {% if posts.has_next %}
+                            <a href="?page={{ posts.next_page_number }}">next</a>
+                            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                            </span>
+                    </div>
                 {% endblock %}
             </div>
         </div>
-    </div>
-    <div class="pagination" align="center">
-    {% for page in page_range %}
-        <a href="/{% if category %}category/{{ category }}/{% endif %}{% if author %}author/{{ author }}/{% endif %}{% if date %}date/{{ date }}/{% endif %}?page={{ page }}">{{ page }}</a>
-    {% endfor %}
     </div>
     </body>
 </html>
