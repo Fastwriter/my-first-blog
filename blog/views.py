@@ -4,6 +4,8 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 from django.shortcuts import redirect
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -42,4 +44,12 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+def listing(request):
+    contact_list = Contacts.objects.all()
+    paginator = Paginator(contact_list, 25) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    contacts = paginator.get_page(page)
+    return render(request, 'list.html', {'contacts': contacts})
     
