@@ -2,34 +2,38 @@
 {% load static %}
 <html>
     <head>
-        <title>Daulet's blog</title>
+        <title>Soldat's blog</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
     <div class="page-header">
-        <h1><a href="/">DaukusSs' Blog</a></h1>
+        <h1><a href="/">Soldier' Blog</a></h1>
     </div>
 
     <div class="content container">
         <div class="row">
             <div class="col-md-8">
                 {% block content %}
+                <form method='GET' action=''>
+                	<input type='text' size="100" name='q' placeholder='Search fot something...' value='{{ request.GET.q }}' />
+                	<input type="submit" class="btn btn-info" style="height:31px;width:100px" value='Search' />
+                </form>
                     {% for post in posts %}
-                        <div class="post">
-                            <div class="date">
-                                {{ post.published_date }}
-                            </div>
-                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-                            <p>{{ post.text|linebreaksbr }}</p>
+                    <div class="post">
+                            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2><br>
+                            <p>{{ post.text|linebreaksbr|truncatechars:2000 }}</p>
+                            <p><a href="#" class="btn btn_primary" role="button">Read more</a></p><br>
+                            <div class="date">{{ post.published_date }}</div>
+                            <hr/>
                         </div>
                     {% endfor %}
                     <div class="pagination">
                         <span class="step-links">
                             {% if posts.has_previous %}
                             <a href="?page=1">&laquo; first</a>
-                            <a href="?page={{ posts.previous_page_number }}">previous</a>
+                            <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
                             {% endif %}
 
                             <span class="current">
@@ -37,7 +41,7 @@
                              </span>
 
                             {% if posts.has_next %}
-                            <a href="?page={{ posts.next_page_number }}">next</a>
+                            <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
                             <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
                             {% endif %}
                             </span>
