@@ -24,7 +24,7 @@
                     <div class="post">
                             <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2><br>
                             <p>{{ post.text|linebreaksbr|truncatechars:2000 }}</p>
-                            <p><a href="#" class="btn btn_primary" role="button">Read more</a></p><br>
+                            <p><a href="{% url 'post_detail' pk=post.pk %}" class="btn btn_primary" role="button">Read more</a></p><br>
                             <div class="date">{{ post.published_date }}</div>
                             <hr/>
                         </div>
